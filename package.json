@@ -1,7 +1,7 @@
 {
-  "name": "ace_interview",
+  "name": "interviewsync",
   "version": "1.0.0",
-  "description": "",
+  "description": "<br/> <p align=\"center\">   <a href=\"https://github.com/ShaileshGodghase/Ace_Interview\">     <img src=\"https://raw.githubusercontent.com/ShaileshGodghase/Ace_Interview/main/public/logo.png?token=GHSAT0AAAAAAB5S2YRZWTRTBYTVW4DTSJCAY6KX63A\" alt=\"Logo\" width=\"80\" height=\"80\">   </a>",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -17,5 +17,6 @@
     "peer": "^0.5.3",
     "socket.io": "^2.3.0",
     "uuid": "^8.3.0"
-  }
+  },
+  "devDependencies": {}
 }
