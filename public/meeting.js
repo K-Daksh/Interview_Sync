@@ -1,3 +1,4 @@
+
 const socket = io("/");
 const videoGrid = document.getElementById("video-grid");
 const myVideo = document.createElement("video");
@@ -5,7 +6,54 @@ const body = document.getElementById('body');
 const modal = document.getElementById('modal');
 const modalBtn = document.getElementById('modalButton');
 const meetingWrapper = document.getElementById('meetingWrapper');
+
 myVideo.muted = true;
+
+async function compileCode(language, code) {
+   const url = 'https://code-compiler10.p.rapidapi.com/';
+   const options = {
+      method: 'POST',
+      headers: {
+         'content-type': 'application/json',
+         'x-compile': 'rapidapi',
+         'Content-Type': 'application/json',
+         'X-RapidAPI-Key': '79bf21192fmsh570c3bfdfed20aep16e351jsnc0fa0eb78944',
+         'X-RapidAPI-Host': 'code-compiler10.p.rapidapi.com'
+      },
+      body: JSON.stringify({
+         langEnum: [
+            'php',
+            'python',
+            'c',
+            'c_cpp',
+            'csharp',
+            'kotlin',
+            'golang',
+            'r',
+            'java',
+            'typescript',
+            'nodejs',
+            'ruby',
+            'perl',
+            'swift',
+            'fortran',
+            'bash'
+         ],
+         lang: language,
+         code: code,
+         input: ''
+      })
+   };
+
+   try {
+      const response = await fetch(url, options);
+      const result = await response.json();
+      return result;
+   } catch (error) {
+      console.error(error);
+      return null;
+   }
+}
 
 
 // function getUserName() {
@@ -217,9 +265,9 @@ socket.on("createMessage", (message, userName) => {
    messages.innerHTML = str;
 });
 // ===========================================================
-let cppCode = '//Ace Interview\n#include<bits/stdc++.h>\nusing namespace std;\nint main()\n{\ncout<<"Allkj";\nreturn 0;\n}'
-let javaCode = 'import java.util.*;\nimport java.lang.*;\nimport java.io.*;\n\nclass AceInterview\n{\npublic static void main (String[] args) throws java.lang.Exception\n{\n		// your code goes here  \n}\n}';
-let pythonCode = '#Ace Interview\n#your code goes here..';
+let cppCode = '//InterviewSync\n#include<bits/stdc++.h>\nusing namespace std;\nint main()\n{\ncout<<"Allkj";\nreturn 0;\n}'
+let javaCode = 'import java.util.*;\nimport java.lang.*;\nimport java.io.*;\n\nclass InterviewSync\n{\npublic static void main (String[] args) throws java.lang.Exception\n{\n		// your code goes here  \n}\n}';
+let pythonCode = '#InterviewSync\n#your code goes here..';
 // const langSelector = document.getElementById("languages");
 // const languages = [cppCode, javaCode, pythonCode];
 // langSelector.addEventListener("change", () => {
@@ -237,6 +285,35 @@ const editor = CodeMirror(document.querySelector("#editor"), {
    autoCloseBrackets: true,
    autoRefresh: true
 });
+const output = CodeMirror(document.querySelector("#output"), {
+   lineNumbers: true,
+   mode: "text/x-c++src",
+   value: "Write code here....",
+   theme: "material-ocean",
+   autofocus: true,
+   matchBrackets: true,
+   styleActiveLine: true,
+   autoCloseTags: true,
+   autoCloseBrackets: true,
+   autoRefresh: true
+});
+
+
+const compileButton = document.getElementById("compile");
+compileButton.addEventListener("click", async () => {
+   const code = editor.getValue();
+   const language = 'python'; // Set default language to Python
+
+   const result = await compileCode(language, code);
+   if (result) {
+      output.setValue(result.output); // Assuming the result contains an 'output' field
+   } else {
+      output.setValue("An error occurred during compilation.");
+   }
+});
+
+
+
 editor.on("change", (instance, changes) => {
    let code = instance.getValue();
    // console.log(code);
@@ -269,6 +346,6 @@ menuBtn.addEventListener("click", () => {
       mainContent.classList.add("w-3/4");
    }
 });
- // const micBtn = document.getElementById("micBtn");
- // const videoBtn = document.getElementById("videoBtn");
- // const endBtn = document.getElementById("endBtn");
+// const micBtn = document.getElementById("micBtn");
+// const videoBtn = document.getElementById("videoBtn");
+// const endBtn = document.getElementById("endBtn");
