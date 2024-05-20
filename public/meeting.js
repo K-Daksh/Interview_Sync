@@ -9,7 +9,7 @@ const meetingWrapper = document.getElementById('meetingWrapper');
 
 myVideo.muted = true;
 
-async function compileCode(language, code) {
+async function compileCode(language, code, input_value) {
    const url = 'https://code-compiler10.p.rapidapi.com/';
    const options = {
       method: 'POST',
@@ -41,7 +41,7 @@ async function compileCode(language, code) {
          ],
          lang: language,
          code: code,
-         input: ''
+         input: input_value,
       })
    };
 
@@ -296,6 +296,17 @@ const output = CodeMirror(document.querySelector("#output"), {
    autoCloseBrackets: true,
    autoRefresh: true
 });
+const input = CodeMirror(document.querySelector("#input"), {
+   mode: "text/x-c++src",
+   value: "Output here....",
+   theme: "material-ocean",
+   autofocus: true,
+   matchBrackets: true,
+   styleActiveLine: true,
+   autoCloseTags: true,
+   autoCloseBrackets: true,
+   autoRefresh: true
+});
 
 
 const compileButton = document.getElementById("compile");
@@ -304,7 +315,8 @@ compileButton.addEventListener("click", async () => {
    var selectedValue = document.getElementById('language-select').value;
    const language = selectedValue; // Set default language to Python
    console.log(language)
-   const result = await compileCode(language, code);
+   const input_value = input.getValue();
+   const result = await compileCode(language, code, input_value);
    if (result) {
       output.setValue(result.output); // Assuming the result contains an 'output' field
    } else {
