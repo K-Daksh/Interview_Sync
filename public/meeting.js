@@ -328,6 +328,22 @@ socket.on("createEditor", (code, userName) => {
       editor.setValue(code);
    }
 });
+
+output.on("change", (instance, changes) => {
+   let code = instance.getValue();
+   // console.log(code);
+   const { origin } = changes;
+   if (origin !== 'setValue') {
+      socket.emit("output", code, ROOM_ID);
+   }
+});
+socket.on("createEditor", (code, userName) => {
+   // console.log(code);
+   if (code !== null) {
+      output.setValue(code);
+   }
+});
+
 let menuBtn = document.getElementById("menu");
 let sidebar = document.getElementById("sidebar");
 let mainContent = document.getElementById("mainContent");
