@@ -301,8 +301,9 @@ const output = CodeMirror(document.querySelector("#output"), {
 const compileButton = document.getElementById("compile");
 compileButton.addEventListener("click", async () => {
    const code = editor.getValue();
-   const language = 'python'; // Set default language to Python
-
+   var selectedValue = document.getElementById('language-select').value;
+   const language = selectedValue; // Set default language to Python
+   console.log(language)
    const result = await compileCode(language, code);
    if (result) {
       output.setValue(result.output); // Assuming the result contains an 'output' field
