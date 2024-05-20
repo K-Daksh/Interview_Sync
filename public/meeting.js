@@ -286,9 +286,8 @@ const editor = CodeMirror(document.querySelector("#editor"), {
    autoRefresh: true
 });
 const output = CodeMirror(document.querySelector("#output"), {
-   lineNumbers: true,
    mode: "text/x-c++src",
-   value: "Write code here....",
+   value: "Output here....",
    theme: "material-ocean",
    autofocus: true,
    matchBrackets: true,
@@ -335,15 +334,15 @@ output.on("change", (instance, changes) => {
    const { origin } = changes;
    if (origin !== 'setValue') {
       socket.emit("output", code, ROOM_ID);
-      if (code !== null) {
-         output.setValue(code);
-      }
+
    }
 });
-// socket.on("createEditor", (code, userName) => {
-//    // console.log(code);
-
-// });
+socket.on("createOutput", (code, userName) => {
+   // console.log(code);
+   if (code !== null) {
+      output.setValue(code);
+   }
+});
 
 let menuBtn = document.getElementById("menu");
 let sidebar = document.getElementById("sidebar");

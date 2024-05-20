@@ -54,6 +54,9 @@ io.on("connection", (socket) => {
     socket.on("editor", (code, roomId) => {
       socket.in(roomId).emit("createEditor", code, userName);
     });
+    socket.on("output", (code, roomId) => {
+      socket.in(roomId).emit("createOutput", code, userName);
+    });
   });
 });
 
